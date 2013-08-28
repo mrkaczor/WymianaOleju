@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package clients;
+package clients.c;
 
 import clients.m.Client;
 import java.util.ArrayList;

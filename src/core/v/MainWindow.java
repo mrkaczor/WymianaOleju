@@ -5,6 +5,9 @@
 package core.v;
 
 import clients.v.ClientsWindow;
+import clients.v.ClientsWindow2;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import services.v.ServicesWindow;
 
 /**
@@ -31,6 +34,13 @@ public class MainWindow extends javax.swing.JFrame {
     initComponents();
   }
   // </editor-fold>
+  
+  @Override
+  public void setVisible(boolean visibility) {
+      super.setVisible(visibility);
+      Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
+      this.setLocation((int)((dim.width-this.getSize().width)/2), (int)(dim.height-this.getSize().height)/2);      
+  }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,33 +52,48 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jpMainPanel = new javax.swing.JPanel();
-        bCustomers = new javax.swing.JButton();
-        bHistory = new javax.swing.JButton();
+        bServiceHistory = new javax.swing.JButton();
+        bUpcomingServices = new javax.swing.JButton();
         bNewService = new javax.swing.JButton();
         bExit = new javax.swing.JButton();
+        bCustomers = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jFileMenu = new javax.swing.JMenu();
+        jFileMenu_Exit = new javax.swing.JMenuItem();
+        jDatabase = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WymianaOleju 1.0");
         setMinimumSize(new java.awt.Dimension(250, 300));
-        setPreferredSize(new java.awt.Dimension(250, 300));
         setResizable(false);
 
-        bCustomers.setText("Klienci");
-        bCustomers.addActionListener(new java.awt.event.ActionListener() {
+        bServiceHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32x32/32x32_history.png"))); // NOI18N
+        bServiceHistory.setText("Historia");
+        bServiceHistory.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        bServiceHistory.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        bServiceHistory.setIconTextGap(10);
+        bServiceHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCustomersActionPerformed(evt);
+                bServiceHistoryActionPerformed(evt);
             }
         });
 
-        bHistory.setText("Historia usług");
-        bHistory.addActionListener(new java.awt.event.ActionListener() {
+        bUpcomingServices.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32x32/upcoming_events.png"))); // NOI18N
+        bUpcomingServices.setText("Terminarz");
+        bUpcomingServices.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        bUpcomingServices.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        bUpcomingServices.setIconTextGap(10);
+        bUpcomingServices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bHistoryActionPerformed(evt);
+                bUpcomingServicesActionPerformed(evt);
             }
         });
 
         bNewService.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        bNewService.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/new_service.png"))); // NOI18N
         bNewService.setText("Nowa wymiana");
+        bNewService.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bNewService.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         bNewService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bNewServiceActionPerformed(evt);
@@ -82,32 +107,69 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        bCustomers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/32x32/32x32_user_group.png"))); // NOI18N
+        bCustomers.setText("Klienci");
+        bCustomers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        bCustomers.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        bCustomers.setIconTextGap(10);
+        bCustomers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCustomersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpMainPanelLayout = new javax.swing.GroupLayout(jpMainPanel);
         jpMainPanel.setLayout(jpMainPanelLayout);
         jpMainPanelLayout.setHorizontalGroup(
             jpMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpMainPanelLayout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addGroup(jpMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCustomers, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51))
+            .addGroup(jpMainPanelLayout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(bNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jpMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bServiceHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bCustomers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bUpcomingServices, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(jpMainPanelLayout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpMainPanelLayout.setVerticalGroup(
             jpMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpMainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bCustomers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bNewService, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jpMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpMainPanelLayout.createSequentialGroup()
+                        .addComponent(bServiceHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bCustomers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(bUpcomingServices, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bNewService, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(19, Short.MAX_VALUE))
         );
+
+        jFileMenu.setText("Plik");
+
+        jFileMenu_Exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jFileMenu_Exit.setText("Zakończ");
+        jFileMenu_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExitActionPerformed(evt);
+            }
+        });
+        jFileMenu.add(jFileMenu_Exit);
+
+        jMenuBar1.add(jFileMenu);
+
+        jDatabase.setText("Baza");
+        jMenuBar1.add(jDatabase);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,27 +185,36 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCustomersActionPerformed
-      ClientsWindow.getInstance().setVisible(true);
-    }//GEN-LAST:event_bCustomersActionPerformed
+    private void bServiceHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bServiceHistoryActionPerformed
+        ServicesWindow.getInstance().setVisible(true);
+    }//GEN-LAST:event_bServiceHistoryActionPerformed
 
     private void bNewServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNewServiceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bNewServiceActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
-      System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_bExitActionPerformed
 
-    private void bHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHistoryActionPerformed
-      ServicesWindow.getInstance().setVisible(true);
-    }//GEN-LAST:event_bHistoryActionPerformed
+    private void bUpcomingServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpcomingServicesActionPerformed
+      ClientsWindow2.getInstance().setVisible(true);
+    }//GEN-LAST:event_bUpcomingServicesActionPerformed
+
+    private void bCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCustomersActionPerformed
+        ClientsWindow.getInstance().setVisible(true);
+    }//GEN-LAST:event_bCustomersActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCustomers;
     private javax.swing.JButton bExit;
-    private javax.swing.JButton bHistory;
     private javax.swing.JButton bNewService;
+    private javax.swing.JButton bServiceHistory;
+    private javax.swing.JButton bUpcomingServices;
+    private javax.swing.JMenu jDatabase;
+    private javax.swing.JMenu jFileMenu;
+    private javax.swing.JMenuItem jFileMenu_Exit;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jpMainPanel;
     // End of variables declaration//GEN-END:variables
 }

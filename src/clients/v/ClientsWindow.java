@@ -8,13 +8,13 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 /**
  *
  * @author mrkaczor
  */
-public class ClientsWindow extends javax.swing.JFrame {
+public class ClientsWindow extends JDialog {
   
   // <editor-fold defaultstate="collapsed" desc="Creating object">
   // <editor-fold defaultstate="collapsed" desc="Singleton">

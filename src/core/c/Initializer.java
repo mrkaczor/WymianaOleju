@@ -4,7 +4,7 @@
  */
 package core.c;
 
-import clients.ClientsService;
+import clients.c.ClientsService;
 import clients.m.Client;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
