@@ -1,1 +1,13 @@
+### NetBeans ###
+nbproject/
 build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+build.xml
+build.properties
+
+# Class Files #
+*.class
