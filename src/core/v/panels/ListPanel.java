@@ -10,6 +10,8 @@ public class ListPanel extends JPanel
   // <editor-fold defaultstate="collapsed" desc="Object variables">
   private final int DEFAULT_MARGIN_VALUE = 10;
   private final int DEFAULT_ARCSIZE_VALUE = 60;
+  private final int MINIMUM_ITEM_HEIGHT = 20;
+  private final int MINIMUM_ITEM_SPACING = 2;
   private final Color DEFAULT_BACKGROUND_COLOR = Color.white;
   
   private int m_iMargin;
@@ -44,7 +46,17 @@ public class ListPanel extends JPanel
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc="Object PRIVATE methods">
-
+  private int calculateMaxItemsNum() {
+	return contentVerticalSpace()/(MINIMUM_ITEM_HEIGHT+MINIMUM_ITEM_SPACING);
+  }
+  
+  private int contentHorizontalSpace() {
+	return this.getWidth()-2*m_iMargin;
+  }
+  
+  private int contentVerticalSpace() {
+	return this.getHeight()-2*m_iMargin;
+  }
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc="Object PUBLIC methods">

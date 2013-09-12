@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 public class ListItem extends JPanel {
   // <editor-fold defaultstate="collapsed" desc="Object variables">
-  private final Color DEFAULT_BACKGROUND_COLOR = Color.white;
+  private final Color DEFAULT_BACKGROUND_COLOR = Color.blue;
   
   private int m_iMargin;
   private int m_iCornerArcSize;

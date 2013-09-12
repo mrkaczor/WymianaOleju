@@ -4,8 +4,9 @@
  */
 package core.v;
 
-import clients.v.ClientsWindow;
-import clients.v.ClientsWindow2;
+import contractors.v.ClientsWindow;
+import contractors.v.ClientsWindow2;
+import core.c.CoreService;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import services.v.ServicesWindow;
@@ -194,11 +195,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_bNewServiceActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
-        System.exit(0);
+        CoreService.getInstance().exitApplication();
     }//GEN-LAST:event_bExitActionPerformed
 
     private void bUpcomingServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUpcomingServicesActionPerformed
-      ClientsWindow2.getInstance().setVisible(true);
+        ClientsWindow2.getInstance().setVisible(true);
     }//GEN-LAST:event_bUpcomingServicesActionPerformed
 
     private void bCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCustomersActionPerformed

@@ -1,11 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package core.c;
 
-import clients.c.ClientsService;
-import clients.m.Client;
+import cars.c.CarsService;
+import contractors.c.ContractorsService;
+import core.m.DataFileMetaInf;
+import core.m.exceptions.InitializationException;
+import core.m.exceptions.UnexpectedDataException;
+import core.m.i.ApplicationService;
+import core.v.MainWindow;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,51 +20,72 @@ import java.util.List;
  * @author mrkaczor
  */
 public class Initializer {
-  
-  // <editor-fold defaultstate="collapsed" desc="Creating object">
-  // <editor-fold defaultstate="collapsed" desc="Singleton">
-  public static Initializer getInstance()
-  {
-    return Initializer.InstanceHolder.p_instance;
-  }
 
-  private static final class InstanceHolder
-  {
-    private static final Initializer p_instance = new Initializer();
-  }
-  // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Creating object">
+    // <editor-fold defaultstate="collapsed" desc="Singleton">
+    public static Initializer getInstance() {
+        return Initializer.InstanceHolder.p_instance;
+    }
 
-  private Initializer()
-  {
+    private static final class InstanceHolder {
+        private static final Initializer p_instance = new Initializer();
+    }
+    // </editor-fold>
+
+    private Initializer() {
+        
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Object PRIVATE methods">
+    private void initApplicationServices() {
+        CoreService.getInstance().registerService(CarsService.getInstance());
+        CoreService.getInstance().registerService(ContractorsService.getInstance());
+    }
+
+    private void loadApplicationData() throws FileNotFoundException, IOException, ClassNotFoundException, UnexpectedDataException {
+        ApplicationService as;
+        List data;
+        List<DataFileMetaInf> metaFiles = loadMetaFiles();
+        for (DataFileMetaInf mi : metaFiles) {
+            as = CoreService.getInstance().getService(mi.getServiceUID());
+            data = loadDataFromFile(mi.getDataFilePath());
+            as.loadData(mi.getDataUID(), data);
+        }
+    }
+
+    private List loadDataFromFile(String filePath) throws FileNotFoundException, IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(filePath);
+        ObjectInputStream in = new ObjectInputStream(fis);
+        return (List) in.readObject();
+    }
+
+    private List<DataFileMetaInf> loadMetaFiles() throws FileNotFoundException, IOException, ClassNotFoundException {
+        File[] dataFiles = new File(CoreService.APPLICATION_DATA_PATH).listFiles();
+        List<DataFileMetaInf> metaFiles = new ArrayList<>();
+        FileInputStream fis;
+        ObjectInputStream in;
+        for (File df : dataFiles) {
+            if (df.getName().endsWith(".m")) {
+                fis = new FileInputStream(df.getAbsolutePath());
+                in = new ObjectInputStream(fis);
+                metaFiles.add((DataFileMetaInf) in.readObject());
+            }
+        }
+        return metaFiles;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Object PUBLIC methods">
+    public void runApplication() throws InitializationException, UnexpectedDataException {
+        initApplicationServices();
+        try {
+            loadApplicationData();
+        } catch (IOException | ClassNotFoundException ex) {
+            throw new InitializationException(ex);
+        }
+        MainWindow.getInstance().setVisible(true);
+    }
+    // </editor-fold>
     
-  }
-  // </editor-fold>
-  
-  // <editor-fold defaultstate="collapsed" desc="Object PRIVATE methods">
-  private List<Client> loadClientsData()
-  {
-    FileInputStream fis;
-    ObjectInputStream in;
-    List<Client> result = new ArrayList<>();
-      try {
-        fis = new FileInputStream("data\\clients.ser");
-        in = new ObjectInputStream(fis);
-        result = (ArrayList<Client>) in.readObject();
-        
-      } catch (FileNotFoundException ex) {
-        
-      } catch (IOException | ClassNotFoundException ex) {
-        
-      }
-    return result;
-  }
-  // </editor-fold>
-  
-  // <editor-fold defaultstate="collapsed" desc="Object PUBLIC methods">
-  public void runApplication()
-  {
-    ClientsService.getInstance().setClients(loadClientsData());
-  }
-  // </editor-fold>
-
 }
